@@ -34,7 +34,8 @@ For abstracts that have entries in both languages you will find sample IDs like,
 * Arthroskopie.00130003.eng.abstr
 * Arthroskopie.00130003.ger.abstr
 
-total matched abstract pairs:  6374
-en abstracts with no de:  1449
-de abstracts with no en:  1434
+More Counts
+* total matched abstract pairs:  6374
+* en abstracts with no de:  1449
+* de abstracts with no en:  1434
 
