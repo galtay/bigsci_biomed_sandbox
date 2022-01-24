@@ -23,6 +23,9 @@ Four files are distributed
 
 ## Plain Text
 
+* springer_english_train_plain.tar.gz (just text in english)
+* springer_german_train_plain.tar.gz (just text in german)
+
 This is a parallel corpus in english and german. 
 
 Here we have 15,631 abstracts. 
@@ -38,4 +41,12 @@ More Counts
 * total matched abstract pairs:  6374
 * en abstracts with no de:  1449
 * de abstracts with no en:  1434
+
+## Annotated Data
+
+* springer_english_train_V4.2.tar.gz (annotated tokens in english)
+* springer_german_train_V4.2.tar.gz (annotated tokens in german)
+
+tar file members have names like, 
+* Arthroskopie.00130003.eng.abstr.chunkmorph.annotated.xml
 
