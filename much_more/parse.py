@@ -45,7 +45,6 @@ def read_plain():
                 with tf.extractfile(member) as fp:
                     content_bytes = fp.read()
                     content_str = content_bytes.decode(NATIVE_ENCODING)
-                    content_str.encode(OUTPUT_ENCODING).decode()
 
                 row = (prefix, member.name, content_str, language)
                 rows.append(row)
@@ -75,17 +74,14 @@ def read_anno():
     for key, path in ANNO_PATHS.items():
         with tarfile.open(name=path, mode="r:gz") as tf:
             for member in tf.getmembers():
-
                 prefix = re.sub(".(eng|ger).abstr.chunkmorph.annotated.xml", "", member.name)
                 language = key
-
                 with tf.extractfile(member) as fp:
                     content_bytes = fp.read()
                     content_str = content_bytes.decode(NATIVE_ENCODING)
-                    content_str.encode(OUTPUT_ENCODING).decode()
 
-                    row = (prefix, member.name, content_str, language)
-                    rows.append(row)
+                row = (prefix, member.name, content_str, language)
+                rows.append(row)
 
     columns = ["prefix", "sample_id", "anno_xml", "language"]
     df_anno = pd.DataFrame(rows, columns=columns)
