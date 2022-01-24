@@ -50,3 +50,9 @@ More Counts
 tar file members have names like, 
 * Arthroskopie.00130003.eng.abstr.chunkmorph.annotated.xml
 
+Looks like all the `xrceterms` fields are empty.
+
+
+Missing 
+
+* Arthroskopie.00130237.eng.abstr.chunkmorph.annotated.xml
