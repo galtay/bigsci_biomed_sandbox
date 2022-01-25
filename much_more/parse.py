@@ -1,3 +1,18 @@
+"""
+MuchMore Springer Bilingual Corpus
+
+homepage
+
+* https://muchmore.dfki.de/resources1.htm
+
+
+description of annotation format
+
+* https://muchmore.dfki.de/pubs/D4.1.pdf
+
+
+"""
+
 from dataclasses import dataclass
 import gzip
 import os
@@ -12,7 +27,6 @@ import pandas as pd
 
 
 NATIVE_ENCODING = "ISO-8859-1"
-OUTPUT_ENCODING = "utf-8"
 
 BASE_DATA_PATH = os.path.join(
     os.environ.get("HOME"),
@@ -103,12 +117,14 @@ def report_anno(df_anno):
 
 
 
-# Read raw data from tar files 
+# Read raw data from tar files
 #=========================================
 df_plain = read_plain()
 report_plain(df_plain)
 df_anno = read_anno()
 report_anno(df_anno)
+
+sys.exit(1)
 
 
 # UmlsTerms
@@ -352,5 +368,3 @@ for indx, row in df_anno.iterrows():
         xsentences=sents,
     )
     docs.append(doc)
-
-
