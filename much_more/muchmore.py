@@ -26,6 +26,35 @@ description of annotation format
 * https://muchmore.dfki.de/pubs/D4.1.pdf
 
 
+Four files are distributed
+
+* springer_english_train_plain.tar.gz (english plain text of abstracts)
+* springer_german_train_plain.tar.gz (german plain text of abstracts)
+* springer_english_train_V4.2.tar.gz (annotated xml in english)
+* springer_german_train_V4.2.tar.gz (annotated xml in german)
+
+Each tar file has one member file per abstract.
+There are keys to join the english and german files
+but there is not a 1-1 mapping between them (i.e. some
+english files have no german counterpart and some german
+files have no english counterpart). However, there is a 1-1
+mapping between plain text and annotations for a given language
+(i.e. an abstract in springer_english_train_plain.tar.gz will
+also be found in springer_english_train_V4.2.tar.gz)
+
+Some counts,
+
+* 15,631 total abstracts
+* 7,823 english abstracts
+* 7,808 german abstracts
+* 6,374 matched (en/de) abstracts
+* 1,449 english abstracts with no german
+* 1,434 german abstracts with no english
+
+Some notes
+
+* Arthroskopie.00130237.eng.abstr.chunkmorph.annotated.xml seems to be empty
+
 """
 
 from dataclasses import dataclass
@@ -56,6 +85,7 @@ The following variables are used to populate the dataset entry. Common ones incl
 
 _DATASETNAME = "muchmore"
 
+# TODO: home page has a list of publications but its not clear which to choose
 _CITATION = """"""
 
 _DESCRIPTION = """\
@@ -74,8 +104,12 @@ MeSH: Medical Subject Headings, EuroWordNet); Semantic Relations from UMLS.
 
 _HOMEPAGE = "https://muchmore.dfki.de/resources1.htm"
 
+# TODO: website says public domain, but didn't see a specific license 
 _LICENSE = ""
 
+# TODO: there are 4 files in this corpus. played around with different configs
+# but for now the default is to download the english annotated tar file.
+# should we make different configs for lots of use cases?  
 _URLs = {
     "en_plain": "https://muchmore.dfki.de/pubs/springer_english_train_plain.tar.gz",
     "de_plain": "https://muchmore.dfki.de/pubs/springer_german_train_plain.tar.gz",
@@ -84,8 +118,8 @@ _URLs = {
     "muchmore": "https://muchmore.dfki.de/pubs/springer_english_train_V4.2.tar.gz",
 }
 
+# took version from annotated file names
 _VERSION = "4.2.0"
-
 
 
 
@@ -106,6 +140,9 @@ class MuchMoreDataset(datasets.GeneratorBasedBuilder):
 
     DEFAULT_CONFIG_NAME = _DATASETNAME
 
+    # heavily nested. this represents the structure in the raw xml
+    # we can definitely do more to organize this, but what shape 
+    # should that take? 
     def _info(self):
 
         if self.config.name == _DATASETNAME:
@@ -190,6 +227,9 @@ class MuchMoreDataset(datasets.GeneratorBasedBuilder):
             datasets.SplitGenerator(
                 name=datasets.Split.TRAIN,
                 # These kwargs will be passed to _generate_examples
+                # `iter_archive` will yield (file_path, file_pointer)
+                # tuples for each abstract / member of the tar.gz
+                # file when iterated over. 
                 gen_kwargs={
                     "file_paths": dl_manager.iter_archive(data_dir),
                     "split": "train",
